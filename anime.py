@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from time import sleep
+from tqdm import tqdm
+
 os.system('cls')
 def get_images_from_video(video_name, time_F):
     video_images = []
@@ -26,46 +28,42 @@ def get_images_from_video(video_name, time_F):
     return video_images
 
 time_F = 1
-video_name = 'holo.mp4' 
+video_name = 'super idol.mp4' 
 video_images = get_images_from_video(video_name, time_F) 
 print("Start")
 
 
 
 img_gif = []
-#video_L = int(len(video_images) * 0.02)
-video_L = 192
+video_L = int(len(video_images))
 print(video_L)
-for i in range(video_L):
-    if i % 50 == 0:
-        print('sleep')
-        sleep(60)
-    img_gif.append('')
-    width = int(video_images[i].shape[1] * 0.15)
-    height = int(video_images[i].shape[0] * 0.15)
-    img_re = cv2.resize(video_images[i], (width, height), interpolation=cv2.INTER_CUBIC)
-    img_re = img_re[:, :, [2, 1, 0]]
-    fig = plt.figure(figsize=(10, 8))
-    plt.title('HOLOchame!!', fontsize=20)
-    plt.xlim(0, width)
-    plt.ylim(height, 0)
-    plt.xlabel('HOLO X')
-    plt.ylabel('HOLO Y')
-    for j in range(height):
-        for k in range(width):
+with tqdm(total=video_L) as pbar: 
+    for i in range(video_L):
+        
+        img_gif.append('')
+        width = int(video_images[i].shape[1] * 0.35)
+        height = int(video_images[i].shape[0] * 0.35)
+        img_re = cv2.resize(video_images[i], (width, height), interpolation=cv2.INTER_CUBIC)
+        img_re = img_re[:, :, [2, 1, 0]]
+        fig = plt.figure(figsize=(10, 8))
+        plt.title('Python super idol', fontsize=20)
+        plt.xlim(0, width)
+        plt.ylim(height, 0)
+        plt.xlabel('X')
+        plt.ylabel('Y')
+        for j in range(height):
+            for k in range(width):
 
-            plt.scatter(k, j, s=4, color=tuple(img_re[j, k, :]/255))
-            
+                plt.scatter(k, j, s=5, color=tuple(img_re[j, k, :]/255))
+                
 
-    plt.savefig('ochame'+str(i)+'.png', dpi=200)
-    plt.close()
-    os.system('cls')
-    print('Finished', 'ochame'+str(i)+'.png')
-    img_gif[i] = 'ochame'+str(i)+'.png'
+        plt.savefig('superidol'+str(i)+'.png', dpi=200)
+
+        img_gif[i] = 'superidol'+str(i)+'.png'
+        pbar.update(1)
 gif_i = []
 for p in img_gif:
     gif_i.append(imageio.imread(p))
-imageio.mimsave("HOLOCHAME2.gif", gif_i, duration=0.001, fps=60)
+imageio.mimsave("superidol.gif", gif_i, duration=0.0001, fps=60)
 print("OK!")
-
 
