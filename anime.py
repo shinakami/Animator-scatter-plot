@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import os
 from time import sleep
 from tqdm import tqdm
+import gc
 
 os.system('cls')
 def get_images_from_video(video_name, time_F):
@@ -53,12 +54,15 @@ with tqdm(total=video_L) as pbar:
         plt.ylabel('Y')
         for j in range(height):
             for k in range(width):
-
+                
+               
                 plt.scatter(k, j, s=5, color=tuple(img_re[j, k, :]/255))
                 
 
         plt.savefig('superidol'+str(i)+'.png', dpi=200)
-
+        plt.close()
+        del img_re
+        gc.collect()
         img_gif[i] = 'superidol'+str(i)+'.png'
         pbar.update(1)
 gif_i = []
